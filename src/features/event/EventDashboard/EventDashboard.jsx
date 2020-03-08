@@ -1,149 +1,174 @@
-import React, { Component } from 'react'
-import { Grid, Button } from 'semantic-ui-react';
-import EventList from '../EventList/EventList';
-import EventForm from '../EventForm/EventForm';
-import cuid from 'cuid';
-
+import React, { Component } from "react";
+import { Grid, Button } from "semantic-ui-react";
+import EventList from "../EventList/EventList";
+import EventForm from "../EventForm/EventForm";
+import cuid from "cuid";
+import { connect } from "react-redux";
+import * as actionTypes from "../eventContants";
 
 const eventsFromDash = [
   {
-    id: '1',
-    title: 'Trip to Tower of London',
-    date: '2018-03-27',
-    category: 'culture',
+    id: "1",
+    title: "Trip to Tower of London",
+    date: "2018-03-27",
+    category: "culture",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
+    city: "London, UK",
     venue: "Tower of London, St Katharine's & Wapping, London",
-    hostedBy: 'Bob',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
+    hostedBy: "Bob",
+    hostPhotoURL: "https://randomuser.me/api/portraits/men/20.jpg",
     attendees: [
       {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
+        id: "a",
+        name: "Bob",
+        photoURL: "https://randomuser.me/api/portraits/men/20.jpg"
       },
       {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
+        id: "b",
+        name: "Tom",
+        photoURL: "https://randomuser.me/api/portraits/men/22.jpg"
       }
     ]
   },
   {
-    id: '2',
-    title: 'Trip to Punch and Judy Pub',
-    date: '2018-03-28',
-    category: 'drinks',
+    id: "2",
+    title: "Trip to Punch and Judy Pub",
+    date: "2018-03-28",
+    category: "drinks",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: 'Punch & Judy, Henrietta Street, London, UK',
-    hostedBy: 'Tom',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
+    city: "London, UK",
+    venue: "Punch & Judy, Henrietta Street, London, UK",
+    hostedBy: "Tom",
+    hostPhotoURL: "https://randomuser.me/api/portraits/men/22.jpg",
     attendees: [
       {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
+        id: "b",
+        name: "Tom",
+        photoURL: "https://randomuser.me/api/portraits/men/22.jpg"
       },
       {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
+        id: "a",
+        name: "Bob",
+        photoURL: "https://randomuser.me/api/portraits/men/20.jpg"
       }
     ]
   }
-]
-
+];
 
 class EventDashboard extends Component {
-    state = {
-        events : eventsFromDash,
-        isOpen: false,
-        selectedEvent: null
-    }
+  state = {
+    isOpen: false,
+    selectedEvent: null
+  };
 
-    createEventHandler = () => {
-      this.setState((prevState)=>(
-          {isOpen : !prevState.isOpen}
-      ));
-    };
+  createEventHandler = () => {
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  };
 
-    handleCreateFormOpen = () => {
-         this.setState({
-             isOpen: true,
-             selectedEvent: null
-         })
-    }
-    
-    handleFormCancel = () => {
-        this.setState({
-            isOpen : false
-        })
-    }
+  handleCreateFormOpen = () => {
+    this.setState({
+      isOpen: true,
+      selectedEvent: null
+    });
+  };
 
-    handleCreateEvent = (newEvent) => {
-        newEvent.id = cuid();
-        newEvent.hostPhotoURL = '/assets/user.png';
-        this.setState(({events})=>({
-         events:[...events, newEvent], isOpen: false  
-        }));
-      
-    }
+  handleFormCancel = () => {
+    this.setState({
+      isOpen: false
+    });
+  };
 
-    handleSelectEvent = (event) => {
-        this.setState({
-            selectedEvent : event,
-            isOpen: true
-        });
-    }
+  handleCreateEvent = newEvent => {
+    newEvent.id = cuid();
+    newEvent.hostPhotoURL = "/assets/user.png";
+    this.setState(({ events }) => ({
+      events: [...events, newEvent],
+      isOpen: false
+    }));
+  };
 
-    handleUpdateEvent = updatedEvent =>{
-        this.setState(({events})=>({
-            events: events.map(event =>{
-                if(event.id == updatedEvent.id ){
-                    return {...updatedEvent}
-                }else{
-                    return event
-                }
+  handleSelectEvent = event => {
+    this.setState({
+      selectedEvent: event,
+      isOpen: true
+    });
+  };
 
-            
-            }), 
-            isOpen: false, 
-            selectedEvent: null
-        }))
-    }
-    handleDeleteEvent = deleteEvent =>{
-        this.setState(({events})=>({
-            events: events.filter(event =>{
-               return event.id !==deleteEvent.id
-            }), 
-            isOpen: false, 
-            selectedEvent: null
-        }))
-    }
+  handleUpdateEvent = updatedEvent => {
+    this.setState(({ events }) => ({
+      events: events.map(event => {
+        if (event.id == updatedEvent.id) {
+          return { ...updatedEvent };
+        } else {
+          return event;
+        }
+      }),
+      isOpen: false,
+      selectedEvent: null
+    }));
+  };
+  handleDeleteEvent = deleteEvent => {};
 
-    render() {
-        const {events, isOpen, selectedEvent} = this.state;
-        return (
-          <Grid>
-              <Grid.Column width = {10}>
-                  <EventList events = {events} selectEvent = {this.handleSelectEvent} deleteEvent = {this.handleDeleteEvent}/>
-              </Grid.Column>
-              <Grid.Column width = {6}>
-              <Button positive content ='Create Event' onClick = {this.handleCreateFormOpen}/>
-              {isOpen ?  <EventForm 
+  render() {
+    const { isOpen, selectedEvent } = this.state;
+    const { events } = this.props;
+    return (
+      <Grid>
+        <Grid.Column width={10}>
+          <EventList
+            events={events}
+            selectEvent={this.handleSelectEvent}
+            deleteEvent={this.props.onDeleteEvent}
+          />
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <Button
+            positive
+            content="Create Event"
+            onClick={this.handleCreateFormOpen}
+          />
+          {isOpen ? (
+            <EventForm
               key={selectedEvent ? selectedEvent.id : 0}
-              selectedEvent= {selectedEvent}
-              updateEvent= {this.handleUpdateEvent}
-               cancelFormOpen = {this.handleFormCancel} 
-               eventCreate = {this.handleCreateEvent}/> : null }
-                 
-              </Grid.Column>
-          </Grid>
-        )
-    }
+              selectedEvent={selectedEvent}
+              updateEvent={this.props.onUpdateEvent}
+              cancelFormOpen={this.handleFormCancel}
+              eventCreate={this.props.onCreateEvent}
+            />
+          ) : null}
+        </Grid.Column>
+      </Grid>
+    );
+  }
 }
 
-export default  EventDashboard;
+const mapStateToProps = state => {
+  return {
+    events: state.eventReducer
+  };
+};
+
+const onDeleteEvent = event => ({
+  type: actionTypes.DELETE_EVENT,
+  payload: event
+});
+const onCreateEvent = event => ({
+  type: actionTypes.CREATE_EVENT,
+  payload: event
+});
+const onUpdateEvent = event => ({
+  type: actionTypes.UPDATE_EVENT,
+  payload: event
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onCreateEvent: event => dispatch(onCreateEvent(event)),
+    onUpdateEvent: event => dispatch(onUpdateEvent(event)),
+    onDeleteEvent: event => dispatch(onDeleteEvent(event))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventDashboard);
