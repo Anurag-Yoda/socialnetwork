@@ -4,7 +4,7 @@ import "./App.css";
 import EventDashboard from "./features/event/EventDashboard/EventDashboard";
 import NavBar from "./features/nav/NavBar/NavBar";
 import { Container } from "semantic-ui-react";
-import { Switch, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import HomePage from "./features/home/HomePage";
 import EventDetailedPage from "./features/event/EventDetailed/EventDetailedPage";
 import PeopleDashboard from "./features/user/PeopleDashboard/PeopleDashboard";
@@ -21,14 +21,14 @@ function App() {
         <Fragment>  
       <NavBar {...props} /> 
      <Container className="main">
-      
+      <Switch {...props} key = {props.location.key}>
       <Route exact path = '/events' component = {EventDashboard}/>
       <Route exact path = '/events/:id' component = {EventDetailedPage}/>
       <Route exact path = '/people' component = {PeopleDashboard}/>
       <Route exact path = '/profile:/id' component = {UserDetailedPage}/>
       <Route  path = '/settings' component = {SettingsDashboard}/>
-      <Route exact path = '/createEvent' component = {EventForm}/>
-     
+      <Route exact path = {['/createEvent','/manage/:id']} component = {EventForm}/>
+      </Switch>
      </Container>
      </Fragment>
       )}/>
