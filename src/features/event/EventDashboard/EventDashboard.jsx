@@ -5,6 +5,7 @@ import EventList from "../EventList/EventList";
 import cuid from "cuid";
 import { connect } from "react-redux";
 import * as actionTypes from "../eventContants";
+import {firestoreConnect} from 'react-redux-firebase';
 
 
 
@@ -85,7 +86,8 @@ class EventDashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    events: state.eventReducer
+    events: state.firestore.ordered.events,
+    
   };
 };
 
@@ -110,4 +112,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventDashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(firestoreConnect([{collection:'events'}])(EventDashboard));

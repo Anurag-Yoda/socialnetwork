@@ -9,7 +9,6 @@ import TextArea from "../../../common/form/TextArea";
 import SelectInput from "../../../common/form/SelectInput";
 import { combineValidators, isRequired, composeValidators, hasLengthGreaterThan } from "revalidate";
 import DateInput from "../../../common/form/DateInput";
-import PlaceInput from "../../../common/form/PlaceInput";
 
 const mapStateToProps = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -115,10 +114,8 @@ class EventForm extends Component {
                 placeholder="Describe your Event"
               />
               <Header sub color="teal" content="Event Location Details" />
-              <Field name="city" component={PlaceInput} placeholder="City" />
+              <Field name="city" component={TextInput} placeholder="City" />
               <Field name="venue" component={TextInput} placeholder="Venue" />
-              
-
               <Button disabled = {invalid || submitting || pristine}positive type="submit">
                 Submit
               </Button>
