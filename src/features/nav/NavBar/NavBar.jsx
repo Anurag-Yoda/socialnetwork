@@ -4,6 +4,7 @@ import { Menu, Container, Button , Item} from 'semantic-ui-react';
 import { NavLink, Link } from 'react-router-dom';
 import SignedOutMenu from '../Menus/SignedOutMenu';
 import SignedInMenu from '../Menus/SignedInMenu';
+import {openModal} from '../../modals/modalActions';
 
 
 
@@ -13,25 +14,29 @@ const mapStateToProps = state =>{
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return{
-   openRegisterModal: () => dispatch({ type: 'OPEN_MODAL', modalType: 'REGISTER_MODAL'}),
-   openLoginModal:() => dispatch({ type: 'OPEN_MODAL', modalType:'LOGIN_MODAL'}),
-   logout: () => dispatch({type:'SIGN_OUT_USER'})
-  }
+//const mapDispatchToProps = dispatch => {
+ // return{
+   //openRegisterModal: () => dispatch({ type: 'OPEN_MODAL'}),
+   //openLoginModal:() => dispatch({ type: 'OPEN_MODAL', modalType:'LOGIN_MODAL'}),
+ //  openModal
+   //logout: () => dispatch({type:'SIGN_OUT_USER'})
+ // }
+//}
+const mapDispatchToProps = {
+openModal
 }
 
 
 
 class NavBar extends Component {
 
-handleSignIn = () => this.props.openLoginModal('LoginModal');
+handleSignIn = () => this.props.openModal('LOGIN_MODAL');
 handleSignOut = () => {
   this.setState({authenticated:false});
   this.props.history.push('/');
 }
 handleRegister = () => {
-  this.props.openRegisterModal('RegisterModal')
+  this.props.openModal('REGISTER_MODAL');
 }
 
     render() {

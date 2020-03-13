@@ -3,12 +3,10 @@ import {Modal} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import TextInput from '../../../src/common/form/TextInput';
 import LoginForm from '../auth/Login/LoginForm';
+import {closeModal} from './modalActions';
 
-
-const mapDispatchToProps = dispatch => {
-    return{
-        closeModal: () => dispatch({type:'HIDE_MODAL'})
-    }
+const mapDispatchToProps = {
+    closeModal
 }
 
 class LoginModal extends Component {

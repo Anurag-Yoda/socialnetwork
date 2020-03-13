@@ -3,7 +3,7 @@ import { Form, Segment, Button } from 'semantic-ui-react';
 import { Field, reduxForm} from 'redux-form';
 import TextInput from '../../../common/form/TextInput';
 import {connect} from 'react-redux';
-
+import {login} from '../authActions';
 const mapDispatchToProps = dispatch => {
   return{
    loginUser: () => dispatch({ type: 'LOGIN_USER', email: 'gogo'}),

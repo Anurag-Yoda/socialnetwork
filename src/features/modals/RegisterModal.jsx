@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import {Modal} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import RegisterForm from '../auth/Register/RegisterForm';
-
-const mapDispatchToProps = dispatch => {
-    return{
-        closeModal: () => dispatch({type:'HIDE_MODAL'})
-    }
+import {closeModal} from './modalActions';
+const mapDispatchToProps = {
+    closeModal
 }
 
 class RegisterModal extends Component {

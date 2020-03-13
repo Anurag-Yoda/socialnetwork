@@ -12,11 +12,14 @@ const modalLookup = {
 }
 
   const ModalRoot = ({ modalType, modalProps }) => {
+     console.log(modalType);
     if (!modalType) {
-      return <span /> // after React v15 you can return null here
+      return null; // after React v15 you can return null here
+      
     }
-  
+    
     const SpecificModal = modalLookup[modalType];
+    console.log(SpecificModal);
     return <SpecificModal {...modalProps} />
   }
   
