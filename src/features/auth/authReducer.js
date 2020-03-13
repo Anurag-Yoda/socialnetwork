@@ -4,11 +4,13 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, payload) => {
+  
+console.log(payload);
   switch (payload.type) {
     case "LOGIN_USER":
       return {
         authenticated: true,
-        currentUser: payload.email
+        currentUser: payload.cred.email
       };
     case "SIGN_OUT_USER":
       return {

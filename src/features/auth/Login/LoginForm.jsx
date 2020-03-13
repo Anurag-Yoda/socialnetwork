@@ -4,18 +4,15 @@ import { Field, reduxForm} from 'redux-form';
 import TextInput from '../../../common/form/TextInput';
 import {connect} from 'react-redux';
 import {login} from '../authActions';
-const mapDispatchToProps = dispatch => {
-  return{
-   loginUser: () => dispatch({ type: 'LOGIN_USER', email: 'gogo'}),
-  
-  }
+const mapDispatchToProps = {
+  login
 }
 
 
 
-const LoginForm = ({loginUser, handleSubmit}) => {
+const LoginForm = ({login, handleSubmit}) => {
   return (
-    <Form error size="large" onSubmit = {handleSubmit(loginUser)} autoComplete ="off">
+    <Form error size="large" onSubmit = {handleSubmit(login)} autoComplete ="off">
       <Segment>
         <Field
           name="email"
