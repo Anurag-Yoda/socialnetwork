@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import { Menu, Container, Button , Item} from 'semantic-ui-react';
+import {withFirebase} from 'react-redux-firebase';
 import { NavLink, Link } from 'react-router-dom';
 import SignedOutMenu from '../Menus/SignedOutMenu';
 import SignedInMenu from '../Menus/SignedInMenu';
 import {openModal} from '../../modals/modalActions';
-
+import {logout} from '../../auth/authActions';
 
 
 const mapStateToProps = state =>{
   return {
-    auth:state.auth
+    auth:state.firebase.auth
   }
 }
 
@@ -23,7 +24,7 @@ const mapStateToProps = state =>{
  // }
 //}
 const mapDispatchToProps = {
-openModal
+openModal,logout
 }
 
 
@@ -32,7 +33,9 @@ class NavBar extends Component {
 
 handleSignIn = () => this.props.openModal('LOGIN_MODAL');
 handleSignOut = () => {
-  this.setState({authenticated:false});
+  //this.setState({authenticated:false});
+ 
+  this.props.firebase.logout();
   this.props.history.push('/');
 }
 handleRegister = () => {
@@ -41,7 +44,7 @@ handleRegister = () => {
 
     render() {
       const {auth} = this.props;
-      const authenticated = auth.authenticated;
+      const authenticated = auth.isLoaded && !auth.isEmpty;
         return (
                   <Menu inverted fixed="top">
                     <Container>
@@ -54,7 +57,7 @@ handleRegister = () => {
                       <Menu.Item>
                         <Button as = {Link} to = "/createEvent" floated="right" positive inverted content="Create Event" />
                       </Menu.Item>
-                      {authenticated ? <SignedInMenu signOut = {this.handleSignOut} currentUser = {auth.currentUser}/> : 
+                      {authenticated ? <SignedInMenu signOut = {this.handleSignOut} auth = {auth}/> : 
                       <SignedOutMenu signIn = {this.handleSignIn} register = {this.handleRegister} />}
                      
                      
@@ -64,4 +67,4 @@ handleRegister = () => {
     }
 }
 
-export default  connect(mapStateToProps,mapDispatchToProps)(NavBar);
+export default  withFirebase(connect(mapStateToProps,mapDispatchToProps)(NavBar));
