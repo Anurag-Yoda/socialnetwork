@@ -7,13 +7,23 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "./store/configureStore";
 import ScrollToTop from "./ScrollToTop";
+import ReduxToastr from 'react-redux-toastr'
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <ScrollToTop>
-        
+      <ReduxToastr
+      timeOut={4000}
+      newestOnTop={false}
+      preventDuplicates
+      position="top-left"
+      transitionIn="fadeIn"
+      transitionOut="fadeOut"
+     
+      closeOnToastrClick/>
+  
         <App />
       </ScrollToTop>
     </BrowserRouter>

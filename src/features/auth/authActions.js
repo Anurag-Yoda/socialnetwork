@@ -1,8 +1,8 @@
 import * as actionTypes from './authConstants';
 import {closeModal} from '../modals/modalActions';
 import { createStore } from 'redux';
-import { SubmissionError } from 'redux-form';
-
+import { SubmissionError , reset} from 'redux-form';
+import {toastr} from 'react-redux-toastr';
 
 
 
@@ -60,5 +60,24 @@ async (dispatch, getState , {getFirebase, getFirestore})=>{
 export const logout = () => {
     return {
         type: actionTypes.SIGN_OUT_USER
+    }
+}
+
+export const updatePassword = (cred) => {
+    return async (dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase();
+        const user = firebase.auth().currentUser;
+        console.log(user,'current user fetched');
+        try {
+            await user.updatePassword(cred.newPassword1);
+            console.log(cred.newPassword1, 'password update called');
+            await dispatch(reset('account'));
+            console.log('password reset done');
+            toastr.success('Success', 'Your password has been updated');
+        } catch (error) {
+            throw new SubmissionError({
+                _error: error.message
+            })
+        }
     }
 }

@@ -11,7 +11,8 @@ import {logout} from '../../auth/authActions';
 
 const mapStateToProps = state =>{
   return {
-    auth:state.firebase.auth
+    auth:state.firebase.auth,
+    profile: state.firebase.profile
   }
 }
 
@@ -43,7 +44,7 @@ handleRegister = () => {
 }
 
     render() {
-      const {auth} = this.props;
+      const {auth ,profile} = this.props;
       const authenticated = auth.isLoaded && !auth.isEmpty;
         return (
                   <Menu inverted fixed="top">
@@ -57,7 +58,7 @@ handleRegister = () => {
                       <Menu.Item>
                         <Button as = {Link} to = "/createEvent" floated="right" positive inverted content="Create Event" />
                       </Menu.Item>
-                      {authenticated ? <SignedInMenu signOut = {this.handleSignOut} auth = {auth}/> : 
+                      {authenticated ? <SignedInMenu signOut = {this.handleSignOut} profile = {profile}/> : 
                       <SignedOutMenu signIn = {this.handleSignIn} register = {this.handleRegister} />}
                      
                      

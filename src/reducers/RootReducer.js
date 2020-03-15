@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import eventReducer from './EventReducer';
 import {reducer as FormReducer} from 'redux-form';
-
+import {reducer as toastrReducer} from 'react-redux-toastr'
 import modal from '../features/modals/modalReducer';
 import authReducer from '../features/auth/authReducer';
 import { firebaseReducer} from 'react-redux-firebase';
@@ -13,7 +13,8 @@ const rootReducer = combineReducers({
     eventReducer: eventReducer,
     form: FormReducer,
     modals: modal,
-    auth:authReducer
+    auth:authReducer,
+    toastr: toastrReducer
 });
 
 export default rootReducer;
