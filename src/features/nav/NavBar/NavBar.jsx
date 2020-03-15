@@ -24,7 +24,7 @@ const mapStateToProps = state =>{
  // }
 //}
 const mapDispatchToProps = {
-openModal,logout
+openModal
 }
 
 
