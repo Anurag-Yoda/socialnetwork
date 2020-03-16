@@ -15,10 +15,11 @@ const validate = combineValidators({
 
 
 
-const AccountPage = ({ error, invalid , submitting, handleSubmit, updatePassword }) => {
+const AccountPage = ({ error, invalid , submitting, handleSubmit, updatePassword, providerId }) => {
   return (
     <Segment>
       <Header dividing size="large" content="Account" />
+      {providerId && providerId === 'password' &&
       <div>
         <Header color="teal" sub content="Change password" />
         <p>Use this form to update your account settings</p>
@@ -51,7 +52,7 @@ const AccountPage = ({ error, invalid , submitting, handleSubmit, updatePassword
           <Divider />
           <Button disabled = {invalid || submitting} size="large" positive content="Update Password" />
         </Form>
-      </div>
+      </div>}
 
       <div>
         <Header color="teal" sub content="Facebook Account" />
