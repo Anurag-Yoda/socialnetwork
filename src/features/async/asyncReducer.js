@@ -4,17 +4,17 @@ const initialState = {
 
 const asyncReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ACTION_STARTED":
+    case "ASYNC_START":
       return {
         ...state,
         loading: true
       };
-    case "ACTION_FINISHED":
+    case "ASYNC_FINISH":
       return {
         ...state,
         loading: false
       };
-      case "ACTION_ERROR":
+      case "ASYNC_ERROR":
       return {
         ...state,
         loading: false

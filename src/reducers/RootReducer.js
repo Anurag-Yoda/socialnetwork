@@ -6,7 +6,13 @@ import modal from '../features/modals/modalReducer';
 import authReducer from '../features/auth/authReducer';
 import { firebaseReducer} from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
-
+import asyncReducer from '../features/async/asyncReducer';
+import {
+  
+    pendingTasksReducer, // The redux reducer
+    
+  } from 'react-redux-spinner';
+  
 const rootReducer = combineReducers({
     firebase:firebaseReducer,
     firestore: firestoreReducer,
@@ -14,7 +20,11 @@ const rootReducer = combineReducers({
     form: FormReducer,
     modals: modal,
     auth:authReducer,
-    toastr: toastrReducer
+    toastr: toastrReducer,
+    async: asyncReducer,
+    pendingTasks: pendingTasksReducer
+    
+
 });
 
 export default rootReducer;
