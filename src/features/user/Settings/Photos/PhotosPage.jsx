@@ -11,18 +11,19 @@ import {
   Divider,
   Grid,
   Button,
-  Card
+ 
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import DropzoneInput from "./DropzoneInput";
 import CropperInput from "./CropperInput";
-import { uploadProfileImage, deletePhoto } from "../../userActions";
+import { uploadProfileImage, deletePhoto, setMainPhoto } from "../../userActions";
 import { toastr } from "react-redux-toastr";
 import UserPhotos from "./UserPhotos";
 
 const mapDispatchToProps = {
   uploadProfileImage,
-  deletePhoto
+  deletePhoto,
+  setMainPhoto
 };
 const mapStateToProps = state => ({
   auth: state.firebase.auth.uid && state.firebase.auth,
@@ -42,7 +43,7 @@ const query = ({ auth }, dataFetch) => {
 };
 console.log(query, "query fired");
 
-const PhotosPage = ({ uploadProfileImage, photos, profile, deletePhoto }) => {
+const PhotosPage = ({ uploadProfileImage, photos, profile, deletePhoto, setMainPhoto }) => {
   const [files, setFiles] = useState([]);
   const [cropResult, setCropResult] = useState([]);
   const [image, setImage] = useState(null);
@@ -78,6 +79,15 @@ const PhotosPage = ({ uploadProfileImage, photos, profile, deletePhoto }) => {
       toastr.error('Oops', error.message)
     }
   }
+
+ const handleSetMainPhoto = async (photo) => {
+   try {
+     await setMainPhoto(photo);
+   } catch (error) {
+     console.log(error)
+   }
+ }
+
 
   return (
     <Fragment>
@@ -135,7 +145,7 @@ const PhotosPage = ({ uploadProfileImage, photos, profile, deletePhoto }) => {
 
           <Divider />
           {isLoaded ? (
-            <UserPhotos photos={photos} profile={profile} deletePhoto = {handleDeletePhoto}/>
+            <UserPhotos photos={photos} profile={profile} deletePhoto = {handleDeletePhoto} setMainPhoto ={handleSetMainPhoto}/>
           ) : (
             <Spinner />
           )}

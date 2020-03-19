@@ -22,7 +22,7 @@ const UserPhotos = (props) => {
             <Card key = {photo.id}>
           <Image src = {photo.url} />
           <div className="ui two buttons">
-            <Button basic color="green">
+            <Button onClick = {()=> props.setMainPhoto(photo)} basic color="green">
               Main
             </Button>
             <Button basic icon="trash" color="red" onClick ={()=> props.deletePhoto(photo)} />
